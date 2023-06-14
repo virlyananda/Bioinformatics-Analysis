@@ -1,0 +1,26 @@
+TY  - JOUR
+TI  - A universal SNP and small-indel variant caller using deep neural networks
+AU  - Poplin, Ryan
+AU  - Chang, Pi-Chuan
+AU  - Alexander, David
+AU  - Schwartz, Scott
+AU  - Colthurst, Thomas
+AU  - Ku, Alexander
+AU  - Newburger, Dan
+AU  - Dijamco, Jojo
+AU  - Nguyen, Nam
+AU  - Afshar, Pegah T
+AU  - Gross, Sam S
+AU  - Dorfman, Lizzie
+AU  - McLean, Cory Y
+AU  - DePristo, Mark A
+T2  - Nature Biotechnology
+SN  - 1087-0156
+DO  - 10.1038/nbt.4235
+AB  - DeepVariant uses convolutional neural networks to improve the accuracy of variant calling. Despite rapid advances in sequencing technologies, accurately calling genetic variants present in an individual genome from billions of short, errorful sequence reads remains challenging. Here we show that a deep convolutional neural network can call genetic variation in aligned next-generation sequencing read data by learning statistical relationships between images of read pileups around putative variant and true genotype calls. The approach, called DeepVariant, outperforms existing state-of-the-art tools. The learned model generalizes across genome builds and mammalian species, allowing nonhuman sequencing projects to benefit from the wealth of human ground-truth data. We further show that DeepVariant can learn to call variants in a variety of sequencing technologies and experimental designs, including deep whole genomes from 10X Genomics and Ion Ampliseq exomes, highlighting the benefits of using more automated and generalizable techniques for variant calling.
+J2  - Nature Biotechnology
+SP  - 983-987
+IS  - 10
+VL  - 36
+PY  - 2018
+ER  - 

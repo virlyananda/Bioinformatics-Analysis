@@ -1,0 +1,125 @@
+## Methods
+
+### getGenome
+
+Retrieve the reference genome from the database through compressed fasta
+file. In the getGenome.sh program, we applied “wget -c” to get the
+compressed fasta file from the database along with its path. Next, we
+applied “-o” to tell the program which output file should the file be
+stored to. On the last line of the program, we should consider STDOUT as
+getGenome.log and STDERR as getGenome.err, followed by “&” to make sure
+the monitor runs successfully.
+
+### getReads
+
+In this method, we create another bash program to get the reads from a
+given reference sample. In the program, we should use “fastq-dump
+–split-files” followed by the reference sample to convert data to
+fastq and fasta format. On the last line of the program, we should
+consider STDOUT as getReads.log and STDERR as getReads.err, followed by
+“&” to make sure the monitor runs successfully.
+
+### trimReads
+
+In this method, we have to trim the reads in order to separate low
+quality base from sequence reads (Bolger, Lohse, and Usadel 2014). By
+doing this, we must implement “nice” to adjust the processing timing,
+followed by Trinity assembler path as well as the fastq files with its
+left and right reads variables. On the last line of the program, we
+should input STDOUT and STDERR files before executing the program.
+
+### indexGenome
+
+In the indexGenome program, we then should include “BWA” (Li and Durbin
+2009) for mapping low-divergent sequences against bigger reference
+genome. Followed by “index -a” to make sure it will be constructed for
+the reference genome. “-a” in the program repre- sents for an algorithm
+in constructing BWT index. In this case, we use the “bwtws” option since
+it supports human genome, which in this case, the fasta file is from a
+human genome. On the last line of the program, we then again put STDOUT
+and STDERR followed by “&” to execute the indexGenome.sh program.
+
+### alignReads
+
+Once we have built indexGenome, we then create another program to align
+local alignment by using “bwa mem” followed by the human genome fasta
+file along with the left and right reads. “bwa mem” is occasionally used
+since it supports longer sequences. We then store BWA outputs to SAM
+format. In this case, on the last line of the program, we should
+implement STDOUT as SAM format and STDERR as alignReads.err.
+
+### sort
+
+Once we have our SAM format file, we then create a program called
+sort.sh where we can sort SAM file by using “samtools”(McKenna et al.
+2010). Within the program, we should implement samtools followed by “@”
+to set the number of sorting and compression threads to 8. “-m” that
+represents for the maximum memory required to 4G, followed by SAM file
+and its output to “-o” as BAM file. On the last line, we are required to
+put STDOUT as sort.log and STDERR as sort.err followed by “&”.
+
+### indexReads
+
+In this program, we use “samtools” to create an index containing BAM
+file to convert it to BAI file. On the last line, we then include STDOUT
+as indexReads.log and STDERR as indexRead.err.
+
+### runDeepVariant
+
+Since we have all the files ready, we can then run Deep Variant. Deep
+Variant has been used to tackle read errors during sequencing with the
+implementation of deep neural network(Poplin et al. 2018). The 3 stages
+we need to implement while running Deep Variant are making examples,
+calling variants and post processing variants. Within this program, we
+must configure environment within Deep Variant by giving variable names
+for output directory, output files for VCF and GVCF and log file. Then,
+we must create the 3 directories for output, input and log from the
+program using “mkdir -p”. Next, we have to download sudo docker.
+
+The implementation of docker while running Deep Variant is crucial
+because it uses containers to make a virtual environment where
+TensorFlow installation can be isolated there. Lastly, we must copy the
+data that we have made from the previous programs. These include sorted
+bam file, bai file, gzi file (index format consisting of binary file),
+fai index file as input directory.
+
+## References
+
+<div id="refs" class="references">
+
+<div id="ref-TRIM">
+
+Bolger, Anthony M., Marc Lohse, and Bjoern Usadel. 2014. “Trimmomatic: A
+Flexible Trimmer for Illumina Sequence Data.” *Bioinformatics* 30 (15):
+2114–20. <https://doi.org/10.1093/bioinformatics/btu170>.
+
+</div>
+
+<div id="ref-BWA">
+
+Li, Heng, and Richard Durbin. 2009. “Fast and Accurate Short Read
+Alignment with Burrows–Wheeler Transform.” *Bioinformatics* 25 (14):
+1754–60. <https://doi.org/10.1093/bioinformatics/btp324>.
+
+</div>
+
+<div id="ref-GATK">
+
+McKenna, Aaron, Matthew Hanna, Eric Banks, Andrey Sivachenko, Kristian
+Cibulskis, Andrew Kernytsky, Kiran Garimella, et al. 2010. “The Genome
+Analysis Toolkit: A MapReduce Framework for Analyzing Next-Generation
+DNA Sequencing Data.” *Genome Research* 20 (9): 1297–1303.
+<https://doi.org/10.1101/gr.107524.110>.
+
+</div>
+
+<div id="ref-DNN">
+
+Poplin, Ryan, Pi-Chuan Chang, David Alexander, Scott Schwartz, Thomas
+Colthurst, Alexander Ku, Dan Newburger, et al. 2018. “A Universal SNP
+and Small-Indel Variant Caller Using Deep Neural Networks.” *Nature
+Biotechnology* 36 (10): 983–87. <https://doi.org/10.1038/nbt.4235>.
+
+</div>
+
+</div>
