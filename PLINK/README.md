@@ -1,3 +1,6 @@
+## Author: Virly Y. Ananda
+## Affiliation: College of Science, Northeastern University
+
 ## Overview
 
 In this project, we use PLINK to analyze WGAS and Population-Based
