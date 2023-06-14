@@ -1,0 +1,159 @@
+---
+title: Cluster Plot
+output:
+  html_document:
+    toc: true
+    toc_depth: 4
+    toc_float: true
+    dev: 'svg'
+  md_document:
+    variant: gfm
+bibliography: bibliography.ris
+---
+
+## Overview
+In this project, we use PLINK to analyze WGAS and Population-Based Linkage[@PLINK]. In this cluster plot,
+we analyze 2 different population from the green color representing Chinese individuals and blue
+color representing Japanese individuals from ibd_view file generated.
+
+## Results and Analysis
+
+```{R}
+library(knitr)
+```
+
+```{R}
+lmiss_stat<-read.table("miss_stat.lmiss", header=T)
+kable(head(lmiss_stat))
+
+## Generate summary statistics of missing rates
+## This table shows for every SNP, the number of missing individuals represented by (N_MISS) and the proportion of individuals missing (F_MISS) are shown.
+```
+
+```{R}
+imiss_stat<-read.table("miss_stat.imiss", header=T)
+kable(head(imiss_stat))
+
+## The table above shows the actual genotyping rate for individual mentioned along with its high rate of genotyping rate.
+```
+
+```{R}
+freq_strats<-read.table("freq_stat.frq.strat", header=T, sep="\t")
+kable(head(freq_strats))
+
+## Alleles Frequencies Summary Statistics
+```
+
+```{R}
+baa_snp<-read.table("as1.assoc", header=T, sep="\t")
+kable(head(baa_snp))
+
+## Basic Association Analysis: Disease trait for all single SNPs
+```
+
+```{R}
+adj_baa<-read.table("as2.assoc.adjusted", header=T, sep="\t")
+kable(head(adj_baa))
+
+## Adjusted Basic Association Analysis
+## The table above shows the adjusted version which contains the log file records the inflation factor calculated for the genomic control analysis.
+## The mean chi-squared statistic (that should be 1 under the null)
+```
+
+```{R}
+## Genotypic and Other Association Model
+## The table below shows the tests are being performed by Cochran-Armitage trend test.
+## This shows different tests performed for each SNP.
+
+gen1_model<-read.table("mod1.model", header=T, sep="\t")
+kable(head(gen1_model))
+```
+
+```{R}
+## Model test that produces values for genotypic test. Here --cell is being implemented as the default option.
+gen2_model<-read.table("mod2.model", header=T, sep="\t")
+kable(head(gen2_model))
+```
+
+```{R}
+## Stratifiation Analysis by using whole genome data to cluster individuals into homogenous groups
+clus_strat<-read.table("str1.cluster1", header=T, sep="\t")
+kable(head(clus_strat))
+```
+
+```{R}
+## Association Analysis: Accounting for Clusters
+## The table below shows association test conditional on the matching by using Cochran-Mantel-Haenszel (CMH) association statistic
+## This test can help for SNP disease association conditional on the cluster
+
+adj_clus<-read.table("aac1.cmh.adjusted", header=T, sep="\t")
+kable(head(adj_clus))
+```
+
+```{R}
+## Perform clustering with different constraints
+## Here, we do not put the maximum size of the cluster. Instead, we want to make sure every cluster contains 1 case
+## and 1 control
+
+gen_cluster<-read.table("version2.cluster1", header=T, sep="\t")
+kable(head(gen_cluster))
+```
+
+```{R}
+## Changes in the adjusted association analysis: Disease SNP is now genome-wide significant
+adj_clus2<-read.table("aac2.cmh.adjusted", header=T, sep="\t")
+kable(head(adj_clus2))
+```
+
+```{R}
+## Stratification Analysis: Number Specification on Cluster
+## The table below shows a 2 class solution
+two_c_sa<-read.table("version3.cluster1", header=T, sep="\t")
+kable(head(two_c_sa))
+```
+
+```{R}
+## Obtaining a genome-wide significance
+adj_clus3<-read.table("aac3.cmh.adjusted", header=T, sep="\t")
+kable(head(adj_clus3))
+```
+
+```{R, code=readLines("plotData.R"), echo=TRUE, eval=TRUE}
+## Generate visualization of the substructure in the sample by creating a matrix of pairwsie IBS distances
+```
+
+```{R}
+## Quantitative Trait Association Analysis: Analyzing quantitative trait directly
+
+quan_trait<-read.table("quant1.qassoc", header=T, sep="\t")
+kable(head(quan_trait))
+```
+
+```{R}
+## Adjusted Quantitative Trait Association Analysis
+adj_quan_trait<-read.table("quant1.qassoc.adjusted", header=T, sep="\t")
+kable(head(adj_quan_trait))
+```
+
+```{R}
+## PERMUTATION TESTING: A method that controls for any between-cluster association under permuted datasets
+## The table shows how sorting adaptive permutation is being implemented to rank disease variant based on empirical significance value
+adapt_perm<-read.table("quant2.qassoc.perm", header=T, sep="\t")
+kable(head(adapt_perm))
+```
+
+```{R}
+## The table below shows how continuous phenotype differentiate two populations
+diff_pop<-read.table("quant3.qassoc.gxe", header=T, sep="\t")
+kable(head(diff_pop))
+```
+
+```{R}
+d<-read.table("rec_snp1.raw", header=T)
+summary(glm(PHENOTYPE-1 ~ rs2222162_1, data=d, family="binomial"))
+
+## Extracting an SNP of interst
+## Here, we should be ablet to see the summary of the coefficient from rs2222162_1
+```
+
+## References
