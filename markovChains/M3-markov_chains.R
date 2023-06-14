@@ -1,5 +1,8 @@
 #!/usr/bin/env Rscript
 
+# Author: Virly Y. Ananda
+# Affiliation: College of Science, Northeastern University
+
 # Open libraries that could help the program run successfully.
 #install.packages("seqinr")
 #install.packages("dplyr")
