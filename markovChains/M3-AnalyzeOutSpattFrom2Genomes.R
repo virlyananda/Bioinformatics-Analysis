@@ -1,5 +1,7 @@
 #!/usr/bin/env Rscript
 
+# Author: Virly Y. Ananda
+# Affiliation: College of Science, Northeastern University
 
 options("scipen" = 30)
 # Usage as a statement to print out input file
